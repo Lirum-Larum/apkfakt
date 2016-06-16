@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>  
+    <link rel='stylesheet' href='/stylesheets/cssreset-min.css' />
+    <link rel='stylesheet' href='/stylesheets/bootstrap.css' />
+    <link rel='stylesheet' href='/lib/ng-tags-input/ng-tags-input.css' />
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+
+  <div ng-controller="linksController">
+
+    <div>
+    	<button ng-click="open()"><i class="glyphicon glyphicon-plus"></i></button>
+    </div>
+
+    <div class="input-group">
+    	<input type="text" class="form-control" placeholder="Search"
+    	       name="srch-term" id="srch-term" ng-model="searchString"
+    	       ng-model-options="{debounce:500}" autofocus>
+        <div class="input-group-btn">
+        	<button class="btn btn-default" type="submit">
+        		<i class="glyphicon glyphicon-search"></i>
+    		</button>
+        </div>
+    </div>
+
+  	<div ng-show="!links">
+  		<span>Loading...</span>
+  	</div>
+    <div ng-show="links">
+	    <ul class="link-tiles">
+	    <div ng-repeat="link in links | filter:searchString">
+	    	<li><section ng-include="'partials/link-tile.html'"></section></li>
+	    </div>
+	    </ul>
+    </div>
+  </div>
+
+    <script type="text/javascript" src="lib/angular/angular.js"></script>
+    <script type="text/javascript" src="lib/angular-mocks/angular-mocks.js"></script>
+    <script type="text/javascript" src="lib/angular-bootstrap/ui-bootstrap.js"></script>
+    <script type="text/javascript" src="lib/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+    <script type="text/javascript" src="lib/angular-route/angular-route.js"></script>    
+    <script type="text/javascript" src="lib/ng-tags-input/ng-tags-input.js"></script>
+    <script type="text/javascript" src="application.js"></script>
+    <script type="text/javascript" src="services/mock-backend.client.service.js"></script>
+    <script type="text/javascript" src="controllers/links.client.controller.js"></script>
+    <script type="text/javascript" src="controllers/test.client.controller.js"></script>
+  </body>  
+</html>

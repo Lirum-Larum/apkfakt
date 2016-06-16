@@ -1,0 +1,62 @@
+@font-face {
+    font-family: 'droid_sansregular';
+    src: url('fonts/DroidSans-webfont.eot');
+    src: url('fonts/DroidSans-webfont.eot?#iefix') format('embedded-opentype'),
+         url('fonts/DroidSans-webfont.woff') format('woff'),
+         url('fonts/DroidSans-webfont.ttf') format('truetype'),
+         url('fonts/DroidSans-webfont.svg#droid_sansbold') format('svg');
+    font-weight: normal;
+    font-style: normal;	
+}
+@font-face {
+    font-family: 'droid_sansbold';
+    src: url('fonts/DroidSans-Bold-webfont.eot');
+    src: url('fonts/DroidSans-Bold-webfont.eot?#iefix') format('embedded-opentype'),
+         url('fonts/DroidSans-Bold-webfont.woff') format('woff'),
+         url('fonts/DroidSans-Bold-webfont.ttf') format('truetype'),
+         url('fonts/DroidSans-Bold-webfont.svg#droid_sansbold') format('svg');
+    font-weight: normal;
+    font-style: normal;	
+}
+
+body {
+  padding: 50px;
+}
+
+a {
+  color: #00B7FF;
+}
+
+.link-tiles {
+	list-style-type: none;
+}
+
+.link-tile {
+	font-family: 'droid_sansregular', sans-serif;
+	border-style: solid;
+	border-width: 4px;
+	border-radius: 20px;
+	border-color: #ccc;
+	padding: 5px 20px 5px 20px;
+	margin: 5px 0px 15px 0px;
+}
+
+.link-tile .title {
+	font-family: 'droid_sansbold', sans-serif;
+	font-size: 1.5rem;
+}
+
+.link-tile .tag {
+	display: inline;
+	color: #248;
+	font-size: 0.8rem;
+}
+
+.link-tile .description p {
+	margin: 10px 0px 10px 0px;
+}
+
+.glyphlink:hover {
+    color: #888;
+    cursor: default;
+}

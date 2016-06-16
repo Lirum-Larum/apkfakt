@@ -1,0 +1,17 @@
+<div class="link-tile">
+	<div class="row">
+		<div class="title col-xs-8">{{link.title}}</div>
+		<div class="col-xs-4">
+			<div class="pull-right">
+				<i class="glyphlink glyphicon glyphicon-share"></i>
+				<i class="glyphlink glyphicon glyphicon-remove"
+				   ng-click="removeLink(link.short)"></i>
+			</div>
+		</div>
+	</div>
+	<div class="url"><a href="{{link.url}}">{{link.url}}</a></div>
+	<div class="description"><p>{{link.description}}</p></div>
+	<div class="tags">
+		<span class="tag" ng-repeat="tag in link.tags">#{{tag.text}}&nbsp;</span>
+	</div>
+</div>
