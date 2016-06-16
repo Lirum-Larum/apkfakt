@@ -23,7 +23,7 @@ app.controller('linksController',
 			});
 			modalInstance.result.then(function(link) {
 				$http.post('/api/links', link).then(function(succRes) {
-//					getLinks();
+					$scope.links = succRes.data;
 				}, function(errRes) {
 					console.log('POST to /api/links returned error.');
 				});
@@ -33,7 +33,9 @@ app.controller('linksController',
 		};
 
 		$scope.removeLink = function(short) {
-			$http.delete('/api/links/' + short);			
+			$http.delete('/api/links/' + short).then(function(res) {
+				$scope.links = res.data;
+			});
 		};
 
 		var init = function() {

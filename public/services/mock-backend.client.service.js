@@ -1,11 +1,15 @@
 (function(app) {
 
-app.factory('mockBackend', ['$httpBackend', function($httpBackend) {
+app.factory('mockBackend', 
+  ['$httpBackend',
+  function($httpBackend) {
 	return {
-		init: function() {
-			$httpBackend.whenGET(/^partials\//).passThrough();		
 
-			$httpBackend.whenGET(/api\/links$/).respond([
+		init: function() {
+
+			var self = this;
+
+			this.links = [
 				{
 					"short": "68po",
 					"url": "http://example.com",
@@ -32,25 +36,27 @@ app.factory('mockBackend', ['$httpBackend', function($httpBackend) {
 					"tags": [ { "text": "alphabet" }
 					        , { "text": "gruesel" }
 					        ]
-				},
-				]		
-			);
+				}];		
+
+			$httpBackend.whenGET(/^partials\//).passThrough();		
+
+			$httpBackend.whenGET(/api\/links$/).respond(this.links);
+
 			$httpBackend.whenPOST(/api\/links$/).respond(function(method, url, data, headers) {
 				var link = angular.fromJson(data);
-				$scope.links.push(link);
-				return [200, {}, {}];
+				self.links.push(link);
+				return [200, self.links, {}];
 			});
 			$httpBackend.whenDELETE(/api\/links\/(\w+)/).respond(function(method, url, params) {
 				var match = /api\/links\/(\w+)/.exec(url);
 				if(match && match.length > 1) {
 					var short = match[1];
-					$scope.links = $scope.links.filter(ln => { 
+					self.links = self.links.filter(ln => { 
 						return ln.short !== short;
 					});
-					return [200, {}, {}];
+					return [200, self.links, {}];
 				} else {
-					console.log('Failed to extract route parameter.');
-					return [400, {}, {}];
+					return [400, self.links, {}];
 				}			
 			});			
 		}
