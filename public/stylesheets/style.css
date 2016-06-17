@@ -58,5 +58,5 @@ a {
 
 .glyphlink:hover {
     color: #888;
-    cursor: default;
+    cursor: pointer;
 }

@@ -12,23 +12,45 @@ app.controller('linksController',
 			});			
 		};
 
-		$scope.open = function(size) {
+		$scope.open = function(short) {
+
+			var link =  $scope.links.filter(l => { return l.short === short; })[0]
+			         || {
+							url: "http://www.sex.com",
+							title: "Sex",
+							description: "figge",
+							tags: [
+								  { text: "penis" }
+								, { text: "abehole" }		         	
+								]
+			         	};
+
 			var modalInstance = $uibModal.open({
 				animation: true,
 				templateUrl: 'partials/create-link-modal.html',
 				controller: 'CreateLinkModalInstanceCtrl',
-				size: size,			
-				// resolve: {					
-				// }
+				resolve: {					
+					link: function() { return link; }
+				}
 			});
-			modalInstance.result.then(function(link) {
-				$http.post('/api/links', link).then(function(succRes) {
-					$scope.links = succRes.data;
-				}, function(errRes) {
-					console.log('POST to /api/links returned error.');
-				});
+			modalInstance.result.then(function(arg) {
+
+				var link = arg.link;
+				var createNew = arg.createNew;
+
+				if(createNew) {
+					//
+					// TODO: assign short
+					//
+					$http.post('/api/links', link).then(function(res) {
+						$scope.links = res.data;
+					});
+				} else {
+					$http.put('/api/links/' + short, link).then(function(res) {
+						$scope.links = res.data;
+					})
+				}
 			}, function() {
-				console.log('Modal dismissed.');
 			});
 		};
 
@@ -48,21 +70,17 @@ app.controller('linksController',
 
 
 app.controller('CreateLinkModalInstanceCtrl',
-	['$scope', '$uibModalInstance',
-	function($scope, $uibModalInstance) {
+	['$scope', '$uibModalInstance', 'link',
+	function($scope, $uibModalInstance, link) {
 
-		$scope.link = {
-			url: "http://www.sex.com",
-			title: "Sex",
-			description: "figge",
-			tags: [
-				  { text: "penis" }
-				, { text: "abehole" }
-			]
-		};
+		$scope.createNew = (typeof link.short === 'undefined');
+		$scope.link = angular.copy(link);
 
 		$scope.ok = function () {
-			$uibModalInstance.close( $scope.link );
+			$uibModalInstance.close( {
+				link: $scope.link,
+				createNew: $scope.createNew
+			} );
 		};
 		$scope.cancel = function () {
 			$uibModalInstance.dismiss('cancel');

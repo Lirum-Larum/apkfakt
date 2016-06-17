@@ -47,10 +47,28 @@ app.factory('mockBackend',
 				self.links.push(link);
 				return [200, self.links, {}];
 			});
+
+			var extractId = function(url) {
+				return /api\/links\/(\w+)/.exec(url)[1];
+			};
+
+			$httpBackend.whenPUT(/api\/links\/(\w+)/).respond(function(method, url, data, headers) {
+				var short = extractId(url);
+				if(short) {
+					self.links = self.links.map(ln => {
+						return ln.short === short
+						     ? angular.fromJson(data)
+						     : ln;
+					});
+					return [200, self.links, {}];
+				} else {
+					return [400, self.links, {}];
+				}
+			});
+
 			$httpBackend.whenDELETE(/api\/links\/(\w+)/).respond(function(method, url, params) {
-				var match = /api\/links\/(\w+)/.exec(url);
-				if(match && match.length > 1) {
-					var short = match[1];
+				var short = extractId(url);				
+				if(short) {
 					self.links = self.links.filter(ln => { 
 						return ln.short !== short;
 					});
